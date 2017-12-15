@@ -10,6 +10,7 @@
             },
             dom_cache() {
                 this.$btns_container = $('#btns-topics');
+                this.$list = $('#list');
             }, 
             event_binding() {
                 this.$btns_container.on('click', 'button.topics', this.get_gifs.bind(this));
@@ -23,18 +24,28 @@
             },
             get_gifs(e){
                 const topic = $(e.target).attr('data-name');    // Get the data-name attr from the clicked button
-                console.log(topic);
                 const k = "lFF9Yxkitf2ugL6Waes2cFHNZ8UE1h5i";    // API Key
                 const l = "10";  // Limit of results
-                const r = "g";    // Rating
-                const reqURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${k}&limit=${l}&g=${r}`;
+                const reqURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${k}&limit=${l}`;
                 
                 $.ajax({    // Initialize AJAX request to GIPHY API
                     url: reqURL,
                     request: 'GET'
-                }).done( response => {
-                    console.log(response);
-                    
+                }).done( res => {
+                    console.log(res);
+                    this.$list.html('');    // Empty the container before displaying requested items
+                    for(let j = 0; j < res.data.length; j++) {  // Loop through the response to find the required info
+                        let rating = `${res.data[j].rating}`;   // Get the rating for the current iteration
+                        let img_src = `${res.data[j].images["480w_still"].url}`;    // Get the url for the static images of the current iteration
+                        let gif_src = `${res.data[j].images.downsized.url}`;    // Get the url for the animated gif of the current iteration
+                        
+                        const rating_p = $(`<p class="topic-p">${rating}</p>`)  //Create a <p> to hold the rating
+                        const static_img = $(`<img class="topic-img" src="${img_src}">`);   // Create <img> with src="static image"
+                        const item_container = $(`<div class="item-container">`);   // Create a <div> to hold each <img> and <p>
+                        
+                        item_container.append(rating_p, static_img);    // Append the <img> and <p> to the container
+                        this.$list.append(item_container);  // Attach the container to the page
+                    }
                 });
             }
         }

@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: #cecece;
+    color: #444;
+    
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+input {    
+    margin: 0 0 1em 0;
+    height: 150px;
+    width: 100%;
+    border: 0;
+    padding: 43px;
+    background-color: #222;
+    color: #fff;
+    font-size: 48px;
+    font-family: 'Pacifico', cursive;
+    text-shadow: 1px 1px 1px #ff0000;
+}
+#list {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-around;
+}
+.topic-img {
+    
+    width: 300px;
+    height: 300px;
+
+}
