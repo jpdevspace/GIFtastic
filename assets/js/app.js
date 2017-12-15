@@ -2,7 +2,7 @@
     // Non-DOM-ready-required code here (scope-safe)
     $(function() {
         const giphy = {
-            topics_array: ["dog", "cat", "otter", "bird", "dragon"],
+            topics_array: ["DOG", "CAT", "OTTER", "BIRD", "DRAGON"],
             init() {
                 this.dom_cache();
                 this.event_binding();
@@ -11,10 +11,14 @@
             dom_cache() {
                 this.$btns_container = $('#btns-topics');
                 this.$list = $('#list');
+                this.$input = $('input');
+                this.$add_animal_btn = $('#add-animal');
+                this.$msg = $('#msg');
             }, 
             event_binding() {
-                this.$btns_container.on('click', 'button.topics', this.get_gifs.bind(this));
-                this.$list.on('click', '.topic-img', this.gify.bind(this));
+                this.$btns_container.on('click', 'button.topics', this.get_gifs.bind(this));    // Event listener for clicks on the buttons with the topics
+                this.$list.on('click', '.topic-img', this.gify.bind(this));     // Event listener for clicks on the static/animated imgs
+                this.$add_animal_btn.on('click', this.create_btn.bind(this));   // Event listener for clicks on the "add animal" button to create new buttons with topics
             }, 
             topics_btns() { // Create and populate buttons for the topics_array
                 this.$btns_container.html('');   // Make sure the container is empty
@@ -67,6 +71,23 @@
                     $target.attr('src', $img_src);
                 }
                 
+            },
+            create_btn(){
+                const new_topic = this.$input.val().toUpperCase();  // Get the user input and change it to upper case letters
+                const already_in_arr = this.topics_array.indexOf(new_topic);    // Get the indexOf to see if the item already exists in the array
+
+                if (already_in_arr < 0){    // Check if the button doesn't exist already
+                    this.topics_array.push(new_topic);  // If it doesn't, push the new input to the array
+                    this.$input.val('');    // Clear the input
+                    this.topics_btns(); // Render the buttons including the new button
+                }
+                else {  // If the item alreay exists in the array
+                    this.$msg.html(`You already created <i>${new_topic}</i>!`);     // Inform the user  
+                    setTimeout(this.clear_msg.bind(this), 3000);    // Clear the message after 3 secs
+                }
+            },
+            clear_msg() {
+                this.$msg.html('');
             }
         }
         giphy.init();

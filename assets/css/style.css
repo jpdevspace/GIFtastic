@@ -31,3 +31,12 @@ input {
     height: 300px;
 
 }
+img[data-status="static"] {
+    opacity: 0.4;
+}
+img[data-status="static"]:hover {
+    opacity: 1;
+}
+img[data-status="animated"] {
+    opacity: 1;
+}
