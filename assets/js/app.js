@@ -14,6 +14,7 @@
             }, 
             event_binding() {
                 this.$btns_container.on('click', 'button.topics', this.get_gifs.bind(this));
+                this.$list.on('click', '.topic-img', this.gify.bind(this));
             }, 
             topics_btns() { // Create and populate buttons for the topics_array
                 this.$btns_container.html('');   // Make sure the container is empty
@@ -32,21 +33,40 @@
                     url: reqURL,
                     request: 'GET'
                 }).done( res => {
-                    console.log(res);
+                    console.log(res);   // To visualize the entire response object from GIPHY
                     this.$list.html('');    // Empty the container before displaying requested items
+                    
                     for(let j = 0; j < res.data.length; j++) {  // Loop through the response to find the required info
                         let rating = `${res.data[j].rating}`;   // Get the rating for the current iteration
                         let img_src = `${res.data[j].images["480w_still"].url}`;    // Get the url for the static images of the current iteration
                         let gif_src = `${res.data[j].images.downsized.url}`;    // Get the url for the animated gif of the current iteration
                         
                         const rating_p = $(`<p class="topic-p">${rating}</p>`)  //Create a <p> to hold the rating
-                        const static_img = $(`<img class="topic-img" src="${img_src}">`);   // Create <img> with src="static image"
+                        // Create <img> and pass the URL for the static img and the animated gif as data-attr. I will use them later to change the src on click
+                        const static_img = $(`<img class="topic-img" src="${img_src}" data-status="static" data-img="${img_src}" data-gif="${gif_src}">`);   
                         const item_container = $(`<div class="item-container">`);   // Create a <div> to hold each <img> and <p>
                         
                         item_container.append(rating_p, static_img);    // Append the <img> and <p> to the container
                         this.$list.append(item_container);  // Attach the container to the page
                     }
                 });
+            },
+            gify(e){    // Changing the img from static to animated and back
+                const $target = $(e.target);
+                const $gif_src = $target.attr('data-gif');   // Get the URL for the animated GIF
+                const $img_src = $target.attr('data-img');   // Get the URL for the static img
+                const $status = $target.attr('data-status'); // Get the status animated or static
+              
+                if($status === 'static') {
+                    $target.attr('data-status', 'animated');
+                    $target.attr('src', $gif_src);
+                    console.log($target);
+                } 
+                else {
+                    $target.attr('data-status', 'static');
+                    $target.attr('src', $img_src);
+                }
+                
             }
         }
         giphy.init();
@@ -54,17 +74,17 @@
     
 })(jQuery); 
 
-    // Start with a short Array (for topics)
-    // (function populate()) populate the array items to the topic-btns
-    // if the topic-btn is clicked
-        // (function)
-        // make an AJAX call
-        // Get the GIF for the corresponding topic-btn
-        // display 10 static imgs in the page
-        // if img is clicked and !animate 
-            // change static image for animated gif
-        // if img is clicked and animate
-            // change animated gif to static img
+    // *Start with a short Array (for topics)
+    // *(function populate()) populate the array items to the topic-btns
+    // *if the topic-btn is clicked
+        // *(function)
+        // *make an AJAX call
+        // *Get the GIF for the corresponding topic-btn
+        // *display 10 static imgs in the page
+        // *if img is clicked and !animate 
+            // *change static image for animated gif
+        // *if img is clicked and animate
+            // *change animated gif to static img
     // if btn from the form is clicked
         // get input value
         // push it to the topic-array
