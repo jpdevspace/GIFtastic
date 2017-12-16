@@ -4,26 +4,26 @@
 }
 body {
     color: #444;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Nova Mono', monospace;
 }
 h1{
     text-align: center;
     color: #FFC107;
+    font-family: 'Pacifico', cursive;
+    text-shadow: 3px 3px 0px #444;
 }
 input {    
-    margin: 0 0 0.3em 0;
-    height: 150px;
+    margin: 0 0 0.5em 0;
+    height: 100px;
     width: 100%;
     border: 0;
-    padding: 43px;
     background-color: #222;
     color: #fff;
-    font-size: 48px;
+    font-size: 32px;
     font-family: 'Nova Mono', monospace;
     text-shadow: 3px 3px 0 #FFC107;
     border-bottom: 15px solid #FFC107;
     text-align: center;
-
 }
 #add-anime{
     text-transform: none;
@@ -31,18 +31,24 @@ input {
     padding: 21px;
     border: 6px solid #946f00;
     border-radius: 50%;
-    margin: 0 auto 1em auto;
+    margin: 0 auto 0.5em auto;
     display: block;
-    font-family: pacifico;
+    font-family: 'Pacifico', cursive;
     width: 120px;
     height:120px;
     font-size: 20px;
     transition: all 0.5s linear;
     color: #444;
-
 }
 #add-anime:hover{
     border: 12px solid #FFC107;
+}
+#msg{
+    height: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    text-decoration: underline #FFC107;
 }
 #btns-topics>button{
     text-transform: none;
@@ -64,6 +70,7 @@ input {
     flex-wrap: wrap;
     align-content: space-around;
     justify-content: space-around;
+    font-family: 'Pacifico', cursive;
 }
 .item-container{
     text-align: center;
