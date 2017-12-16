@@ -2,7 +2,7 @@
     // Non-DOM-ready-required code here (scope-safe)
     $(function() {
         const giphy = {
-            topics_array: ["DOG", "CAT", "OTTER", "BIRD", "DRAGON"],
+            topics_array: ["FULL METAL ALCHEMIST", "ATTACK ON TITAN", "DRAGON BALL", "BLEACH"],
             init() {
                 this.dom_cache();
                 this.event_binding();
@@ -12,13 +12,13 @@
                 this.$btns_container = $('#btns-topics');
                 this.$list = $('#list');
                 this.$input = $('input');
-                this.$add_animal_btn = $('#add-animal');
+                this.$add_anime_btn = $('#add-anime');
                 this.$msg = $('#msg');
             }, 
             event_binding() {
                 this.$btns_container.on('click', 'button.topics', this.get_gifs.bind(this));    // Event listener for clicks on the buttons with the topics
                 this.$list.on('click', '.topic-img', this.gify.bind(this));     // Event listener for clicks on the static/animated imgs
-                this.$add_animal_btn.on('click', this.create_btn.bind(this));   // Event listener for clicks on the "add animal" button to create new buttons with topics
+                this.$add_anime_btn.on('click', this.create_btn.bind(this));   // Event listener for clicks on the "add anime" button to create new buttons with topics
             }, 
             topics_btns() { // Create and populate buttons for the topics_array
                 this.$btns_container.html('');   // Make sure the container is empty
@@ -41,11 +41,11 @@
                     this.$list.html('');    // Empty the container before displaying requested items
                     
                     for(let j = 0; j < res.data.length; j++) {  // Loop through the response to find the required info
-                        let rating = `${res.data[j].rating}`;   // Get the rating for the current iteration
+                        let rating = `${res.data[j].rating.toUpperCase()}`;   // Get the rating for the current iteration
                         let img_src = `${res.data[j].images["480w_still"].url}`;    // Get the url for the static images of the current iteration
                         let gif_src = `${res.data[j].images.downsized.url}`;    // Get the url for the animated gif of the current iteration
                         
-                        const rating_p = $(`<p class="topic-p">${rating}</p>`)  //Create a <p> to hold the rating
+                        const rating_p = $(`<p class="topic-p"><strong>Rating:</strong> ${rating}</p>`)  //Create a <p> to hold the rating
                         // Create <img> and pass the URL for the static img and the animated gif as data-attr. I will use them later to change the src on click
                         const static_img = $(`<img class="topic-img" src="${img_src}" data-status="static" data-img="${img_src}" data-gif="${gif_src}">`);   
                         const item_container = $(`<div class="item-container">`);   // Create a <div> to hold each <img> and <p>
